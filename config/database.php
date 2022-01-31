@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql-production'),
+    'default' => env('DB_CONNECTION', 'pgsql-prod'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,20 +34,35 @@ return [
     */
 
     'connections' => [
-        'mysql-production' => [
-            'driver' => 'mysql',
-            'host' => 'us-cdbr-east-05.cleardb.net',
-            'port' => '3306',
-            'database' => 'heroku_ed11dbdc7edd2af',
-            'username' => 'bf7e5c7e6294f0',
-            'password' => 'd3c516da',
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+        'pgsql-prod' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
             'prefix' => '',
-            'strict' => true,
-            'engine' => null,
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'require',
         ],
+
+        // 'mysql-production' => [
+        //     'driver' => 'mysql',
+        //     'host' => 'us-cdbr-east-05.cleardb.net',
+        //     'port' => '3306',
+        //     'database' => 'heroku_ed11dbdc7edd2af',
+        //     'username' => 'bf7e5c7e6294f0',
+        //     'password' => 'd3c516da',
+        //     'unix_socket' => env('DB_SOCKET', ''),
+        //     'charset' => 'utf8mb4',
+        //     'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'strict' => true,
+        //     'engine' => null,
+        // ],
 
         'sqlite' => [
             'driver' => 'sqlite',
