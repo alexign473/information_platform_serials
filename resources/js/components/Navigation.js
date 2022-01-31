@@ -31,12 +31,12 @@ export default function Navigation() {
     >
       <Container fluid='sm'>
         <Navbar.Brand as={NavLink} to='/'>
-          Logo
+          serial searcher
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse>
           <Nav className='mr-auto'>
-            <NavDropdown className='me-2' title='Меню'>
+            <NavDropdown className='me-2' title='Меню' variant='dark'>
               <NavDropdown.Item as={NavLink} to={ROUTES.SERIALS}>
                 Каталог сериалов
               </NavDropdown.Item>
@@ -51,16 +51,6 @@ export default function Navigation() {
                 to={`${ROUTES.PROFILE}/${ROUTES.FAVOURITES}`}
               >
                 Избранное
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={NavLink} to='/example'>
-                Пример компонентов
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to={ROUTES.ADMIN}>
-                Админка
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to='test'>
-                Тест
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>

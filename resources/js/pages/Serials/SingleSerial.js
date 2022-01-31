@@ -13,14 +13,15 @@ import {
 import { StatusFilters } from '../../store/filters.slice';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import Loader from '../../utilities/Loader';
 import { labels } from '../../constants/labels';
 import { useWatchlist } from '../../hooks/useWatchlist';
-import Loader from '../../utilities/Loader';
 
 export const SingleSerial = () => {
   const dispatch = useDispatch();
   const { serialId } = useParams();
   const { serial, loading, hasErrors } = useSelector(selectSerial);
+  const { id, poster, title, description, year, rate, genres } = serial;
   const {
     watchlistItem,
     addToWatchlist,
@@ -35,10 +36,6 @@ export const SingleSerial = () => {
 
   const [hover, setHover] = useState(-1);
 
-  const addInFavorites = () => {
-    console.log(serialId);
-  };
-
   const onRatingChange = (e, newValue) => {
     setRating({ id: serial.id, rating: newValue });
   };
@@ -48,12 +45,7 @@ export const SingleSerial = () => {
 
   const onAddToWatchlist = (status) => {
     if (!watchlistItem) {
-      const storeSerial = {
-        id: serial.id,
-        title: serial.title,
-        status: status,
-        rating: null,
-      };
+      const storeSerial = { id, title, status, rating: null };
       addToWatchlist(storeSerial);
     } else {
       setStatus({ id: serial.id, status: status });
@@ -83,24 +75,17 @@ export const SingleSerial = () => {
     );
   };
 
-  const genres = (serial.genres || ['Без категории']).map((genre) => (
-    <span key={genre.toString()}>
-      <Badge bg='secondary'>{genre}</Badge>{' '}
-    </span>
-  ));
-
   const seasonList = (serial.seasons || ['']).map((season) => (
     <div key={(season.season_number + 1).toString()}>
-      <Row>
-        <p className='col-sm-1 mb-3 text-center'>{season.season_number}</p>
-        <p className='col-sm-7 mb-3'>{season.season_name}</p>
-        <p className='col-sm-3 mb-3'>{season.air_date}</p>
-        <p className='col-sm-1 mb-3 text-center'>{season.episode_count}</p>
+      <Row style={{ fontSize: 14 }}>
+        <Col xs={1}>{season.season_number}</Col>
+        <Col xs={7}>{season.season_name}</Col>
+        <Col xs={3}>{season.air_date}</Col>
+        <Col xs={1}>{season.episode_count}</Col>
       </Row>
     </div>
   ));
 
-  // if (loading) return <div>Loading...</div>;
   if (loading) return <Loader />;
   if (hasErrors) return <div>Ошибка при загрузке.</div>;
 
@@ -113,9 +98,10 @@ export const SingleSerial = () => {
             className='card-img-top shadow'
             alt={serial.title}
           />
-              
+
           <Dropdown as={ButtonGroup} className='w-100 mt-4'>
             <Button
+              className='w-100'
               disabled={!!watchlistItem}
               onClick={() => onAddToWatchlist(StatusFilters.Active)}
             >
@@ -164,30 +150,29 @@ export const SingleSerial = () => {
               </table>
               <div className='h5 mb-4'>
                 Жанры:&nbsp;
-                {genres}
+                {genres &&
+                  genres.map((genre) => (
+                    <span key={genre.toString()}>
+                      <Badge className='mx-1' bg='secondary'>
+                        {genre}
+                      </Badge>{' '}
+                    </span>
+                  ))}
               </div>
-
-              <Button
-                variant='outline-danger'
-                className='mb-5'
-                onClick={addInFavorites}
-              >
-                Добавить в Избранное
-              </Button>
-              <div className='h5 mb-4 fw-bold'>Сезоны</div>
-              <Row>
-                <Col sm={12}>
+              <div className='h5 mb-4 d-none d-sm-block'>Сезоны</div>
+              <Row className='d-none d-sm-block'>
+                <Col xs={10}>
                   <Row>
-                    <Col sm={1}>
+                    <Col xs={1}>
                       <b>#</b>
                     </Col>
-                    <Col sm={7}>
+                    <Col xs={7}>
                       <b>Название</b>
                     </Col>
-                    <Col sm={3}>
+                    <Col xs={3}>
                       <b>Дата выхода</b>
                     </Col>
-                    <Col sm={1}>
+                    <Col xs={1}>
                       <b>Эпизодов</b>
                     </Col>
                   </Row>
