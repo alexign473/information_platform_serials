@@ -6,7 +6,7 @@ import { StatusFilters } from '../../store/filters.slice';
 
 export default function ListItem({ i, id }) {
   const { watchlistItem, removeFromWatchlist, setStatus } = useWatchlist(id);
-  const { title, rating, status } = watchlistItem;
+  const { name, rating, status } = watchlistItem;
 
   const disabled = status === StatusFilters.Completed;
 
@@ -19,7 +19,7 @@ export default function ListItem({ i, id }) {
             to={`${ROUTES.SERIALS}/${id}`}
             className='text-decoration-none text-body'
           >
-            {title}
+            {name}
           </Link>{' '}
           <div>
             <Button

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import serialsAPI from '../api/serialsAPI';
+import serialsAxios, { API_KEY } from '../api/serialsAxios';
 
 const initialState = {
   serial: {},
@@ -38,7 +38,9 @@ export default serialSlice.reducer;
 export const getSerial = (id) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const { data } = await serialsAPI.get(`serials/${id}`);
+    const { data } = await serialsAxios.get(
+      `tv/${id}?api_key=${API_KEY}&language=ru`
+    );
     dispatch(setSerial(data));
   } catch (err) {
     dispatch(setSerialFailure());

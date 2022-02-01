@@ -1,7 +1,5 @@
-export * from './Admin';
 export * from './Profile';
 export * from './Serials';
-export * from './Example';
 export * from './Home';
 export * from './NotFound';
 export * from './SignIn';

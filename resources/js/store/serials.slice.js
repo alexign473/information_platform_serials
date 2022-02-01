@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import serialsAPI from '../api/serialsAPI';
+import serialsAxios, { API_KEY } from '../api/serialsAxios';
 
 const initialState = {
   serials: [],
+  page: 1,
+  hasMore: true,
   loading: false,
   hasErrors: false,
 };
@@ -12,7 +14,16 @@ const serialsSlice = createSlice({
   initialState,
   reducers: {
     setSerials: (state, { payload }) => {
-      state.serials = payload;
+      console.log(payload);
+      let setHasMore;
+      if (payload !== undefined) {
+        setHasMore = payload.length !== 0 ? true : false;
+      } else {
+        setHasMore = false;
+      }
+      state.hasMore = setHasMore;
+      state.serials.push(...payload);
+      state.page++;
     },
     setLoading: (state) => {
       state.loading = true;
@@ -35,12 +46,15 @@ export const { setSerials, setLoading, setLoadingComplete, setSerialsFailure } =
 export default serialsSlice.reducer;
 
 // Thunks
-export const getSerials = () => async (dispatch) => {
+export const getSerials = (page) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const { data } = await serialsAPI.get('serials');
-    dispatch(setSerials(data));
+    const { data } = await serialsAxios.get(
+      `discover/tv?api_key=${API_KEY}&language=ru-RU&sort_by=popularity.desc&page=${page}`
+    );
+    dispatch(setSerials(data.results));
   } catch (err) {
+    console.log(err);
     dispatch(setSerialsFailure());
   } finally {
     dispatch(setLoadingComplete());

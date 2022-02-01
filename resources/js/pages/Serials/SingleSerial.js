@@ -21,7 +21,16 @@ export const SingleSerial = () => {
   const dispatch = useDispatch();
   const { serialId } = useParams();
   const { serial, loading, hasErrors } = useSelector(selectSerial);
-  const { id, poster, title, description, year, rate, genres } = serial;
+  const {
+    id,
+    name,
+    first_air_date,
+    genres,
+    overview,
+    poster_path,
+    vote_average,
+  } = serial;
+
   const {
     watchlistItem,
     addToWatchlist,
@@ -45,7 +54,7 @@ export const SingleSerial = () => {
 
   const onAddToWatchlist = (status) => {
     if (!watchlistItem) {
-      const storeSerial = { id, title, status, rating: null };
+      const storeSerial = { id, name, status, rating: null };
       addToWatchlist(storeSerial);
     } else {
       setStatus({ id: serial.id, status: status });
@@ -75,17 +84,6 @@ export const SingleSerial = () => {
     );
   };
 
-  const seasonList = (serial.seasons || ['']).map((season) => (
-    <div key={(season.season_number + 1).toString()}>
-      <Row style={{ fontSize: 14 }}>
-        <Col xs={1}>{season.season_number}</Col>
-        <Col xs={7}>{season.season_name}</Col>
-        <Col xs={3}>{season.air_date}</Col>
-        <Col xs={1}>{season.episode_count}</Col>
-      </Row>
-    </div>
-  ));
-
   if (loading) return <Loader />;
   if (hasErrors) return <div>Ошибка при загрузке.</div>;
 
@@ -94,9 +92,9 @@ export const SingleSerial = () => {
       <Row className='py-3 details'>
         <Col lg={3} className='px-0 me-4'>
           <img
-            src={serial.poster}
+            src={`https://image.tmdb.org/t/p/original${poster_path}`}
             className='card-img-top shadow'
-            alt={serial.title}
+            alt={name}
           />
 
           <Dropdown as={ButtonGroup} className='w-100 mt-4'>
@@ -130,21 +128,21 @@ export const SingleSerial = () => {
         <Col>
           <Row p={1}>
             <Col>
-              <h1 className='serial-title'>{serial.title}</h1>
+              <h1 className='serial-title'>{name}</h1>
             </Col>
           </Row>
           <Row>
             <Col lg={10} className='mt-3'>
-              <p className='text-left mb-5 lh-sm'>{serial.description}</p>
+              <p className='text-left mb-5 lh-sm'>{overview}</p>
               <table>
                 <tbody>
                   <tr>
                     <th scope='row'>Релиз</th>
-                    <td>{serial.year}</td>
+                    <td>{first_air_date}</td>
                   </tr>
                   <tr>
                     <th scope='row'>Рейтинг IMDb</th>
-                    <td>{serial.rate}/10</td>
+                    <td>{vote_average}/10</td>
                   </tr>
                 </tbody>
               </table>
@@ -152,33 +150,13 @@ export const SingleSerial = () => {
                 Жанры:&nbsp;
                 {genres &&
                   genres.map((genre) => (
-                    <span key={genre.toString()}>
+                    <span key={genre.id}>
                       <Badge className='mx-1' bg='secondary'>
-                        {genre}
+                        {genre.name}
                       </Badge>{' '}
                     </span>
                   ))}
               </div>
-              <div className='h5 mb-4 d-none d-sm-block'>Сезоны</div>
-              <Row className='d-none d-sm-block'>
-                <Col xs={10}>
-                  <Row>
-                    <Col xs={1}>
-                      <b>#</b>
-                    </Col>
-                    <Col xs={7}>
-                      <b>Название</b>
-                    </Col>
-                    <Col xs={3}>
-                      <b>Дата выхода</b>
-                    </Col>
-                    <Col xs={1}>
-                      <b>Эпизодов</b>
-                    </Col>
-                  </Row>
-                  {seasonList}
-                </Col>
-              </Row>
             </Col>
           </Row>
         </Col>

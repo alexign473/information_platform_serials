@@ -8,9 +8,15 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
+import { DebounceInput } from 'react-debounce-input';
 import * as ROUTES from '../constants/routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth, logout } from '../store/auth.slice';
+import {
+  setQuery,
+  clearQuery,
+  getSearchedSerials,
+} from '../store/search.slice';
 
 export default function Navigation() {
   const dispatch = useDispatch();
@@ -37,9 +43,6 @@ export default function Navigation() {
         <Navbar.Collapse>
           <Nav className='mr-auto'>
             <NavDropdown className='me-2' title='Меню' variant='dark'>
-              <NavDropdown.Item as={NavLink} to={ROUTES.SERIALS}>
-                Каталог сериалов
-              </NavDropdown.Item>
               <NavDropdown.Item
                 as={NavLink}
                 to={`${ROUTES.PROFILE}/${ROUTES.WATCHLIST}`}
@@ -54,12 +57,26 @@ export default function Navigation() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <FormControl
+          <DebounceInput
+            minLength={3}
+            debounceTimeout={500}
+            onChange={(e) => {
+              dispatch(setQuery(e.target.value));
+              if (e.target.value.length === 0) {
+                dispatch(clearQuery());
+                console.log('2 smol');
+              }
+            }}
+            className='form-control me-2'
+            type='search'
+            placeholder='Поиск'
+          />
+          {/* <FormControl
             className='me-2'
             type='search'
             placeholder='Поиск'
             aria-label='Search'
-          />
+          /> */}
           {isLoggedIn ? <LoggedInView logOut={logOut} /> : <LoggedOutView />}
         </Navbar.Collapse>
       </Container>
