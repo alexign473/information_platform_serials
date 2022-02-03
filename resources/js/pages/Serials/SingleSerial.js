@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import Loader from '../../utilities/Loader';
 import { labels } from '../../constants/labels';
 import { useWatchlist } from '../../hooks/useWatchlist';
+import { selectWatchlistById } from '../../store/watchlist.slice';
 
 export const SingleSerial = () => {
   const dispatch = useDispatch();
@@ -24,20 +25,23 @@ export const SingleSerial = () => {
   const {
     id,
     name,
-    first_air_date,
+    first_air_date: release,
     genres,
     overview,
-    poster_path,
-    vote_average,
+    poster_path: poster,
+    vote_average: rate,
   } = serial;
 
   const {
-    watchlistItem,
+    // watchlistItem,
     addToWatchlist,
     removeFromWatchlist,
     setRating,
     setStatus,
-  } = useWatchlist(serialId);
+  } = useWatchlist();
+  const watchlistItem = useSelector((state) =>
+    selectWatchlistById(state, serialId)
+  );
 
   useEffect(() => {
     dispatch(getSerial(serialId));
@@ -90,10 +94,15 @@ export const SingleSerial = () => {
   return (
     <>
       <Row className='py-3 details'>
-        <Col lg={3} className='px-0 me-4'>
+        <Col md={5} lg={3} className='px-0 me-4'>
           <img
-            src={`https://image.tmdb.org/t/p/original${poster_path}`}
-            className='card-img-top shadow'
+            src={
+              poster
+                ? `https://image.tmdb.org/t/p/original${poster}`
+                : 'http://via.placeholder.com/210x315?text=No poster'
+            }
+            className='shadow'
+            style={{ width: '100%' }}
             alt={name}
           />
 
@@ -128,7 +137,7 @@ export const SingleSerial = () => {
         <Col>
           <Row p={1}>
             <Col>
-              <h1 className='serial-title'>{name}</h1>
+              <h1 className='details-title'>{name}</h1>
             </Col>
           </Row>
           <Row>
@@ -138,11 +147,11 @@ export const SingleSerial = () => {
                 <tbody>
                   <tr>
                     <th scope='row'>Релиз</th>
-                    <td>{first_air_date}</td>
+                    <td>{release}</td>
                   </tr>
                   <tr>
                     <th scope='row'>Рейтинг IMDb</th>
-                    <td>{vote_average}/10</td>
+                    <td>{rate}/10</td>
                   </tr>
                 </tbody>
               </table>

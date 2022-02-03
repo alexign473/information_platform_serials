@@ -13,18 +13,18 @@ h3, .h3, h2, .h2, h1, .h1 {
     font-family: "Helvetica Neue Cyr Medium";
 }
 
-.serial-title {
-    font-weight: bold;
-    text-shadow: 0 6px 10px rgb(34 60 80 / 28%);
-}
-
-.details th {
-    text-align: left;
-    padding: 0px 25px 15px 0px;
-}
-  
-.details td {
-    vertical-align: baseline;
+.details {
+    .details-title {
+        font-weight: bold;
+        text-shadow: 0 6px 10px rgb(34 60 80 / 28%);
+    }
+    th {
+        text-align: left;
+        padding: 0px 25px 15px 0px;
+    }
+    td {
+        vertical-align: baseline;
+    }
 }
 
 .content {
@@ -33,16 +33,24 @@ h3, .h3, h2, .h2, h1, .h1 {
     align-content: space-between;
     flex-wrap: wrap;
 }
-.title {
-    white-space: nowrap;
-    font-size: 16px;
-}
 
-.serial {
+.serial-card {
     margin: 0px 20px 20px 20px;
+
+    img {
+        box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.397);
+        border-radius: 2px;
+    }
+    h3 {
+        white-space: nowrap;
+        font-size: 16px;
+    }
 }
 
-.serial-img {
-    box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.397);
-    border-radius: 2px;
-}
+@media only screen and (max-width: 480px) {
+    .serial-card {    
+        img {
+            width: 100%;
+        }
+    }
+  }

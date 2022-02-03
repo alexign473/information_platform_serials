@@ -16,12 +16,10 @@ import serialReducer from './serial.slice';
 import authReducer from './auth.slice';
 import watchlistReducer from './watchlist.slice';
 import filtersReducer from './filters.slice';
-import searchReducer from './search.slice';
 
 const rootReducer = combineReducers({
   serials: serialsReducer,
   serial: serialReducer,
-  search: searchReducer,
   auth: authReducer,
   watchlist: watchlistReducer,
   filters: filtersReducer,

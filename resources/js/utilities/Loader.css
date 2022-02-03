@@ -13,7 +13,8 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #f54c4c;
+  /* background: #f54c4c; */ 
+  background: #6f42c1;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {

@@ -18,23 +18,22 @@ export default function SerialCard({ poster, title, id }) {
   const titleDelimited = stringDelimiter(title, 2);
 
   return (
-    <div className='serial'>
+    <div className='serial-card'>
       {/* <motion.div initial='rest' whileHover='hover' animate='rest'> */}
-      <Link to={`${ROUTES.SERIALS}/${id}`}>
+      <Link to={`${ROUTES.SERIALS}/${id}`} target='_blank'>
         <img
-          className='serial-img'
           src={
             poster
               ? `https://image.tmdb.org/t/p/original${poster}`
-              : 'http://placehold.it/210x315&text=No poster'
+              : 'http://via.placeholder.com/210x315?text=No poster'
           }
           alt=''
           width='210'
         />
       </Link>
-      <h1 className='title mt-2' title={title}>
+      <h3 className='mt-2' title={title}>
         {titleDelimited}
-      </h1>
+      </h3>
       {/* </motion.div> */}
     </div>
   );

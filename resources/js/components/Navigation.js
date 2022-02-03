@@ -1,22 +1,18 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   Navbar,
   Nav,
   NavDropdown,
   Container,
-  FormControl,
   Button,
+  Row,
+  Col,
 } from 'react-bootstrap';
-import { DebounceInput } from 'react-debounce-input';
 import * as ROUTES from '../constants/routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth, logout } from '../store/auth.slice';
-import {
-  setQuery,
-  clearQuery,
-  getSearchedSerials,
-} from '../store/search.slice';
+import SearchBar from './SearchBar/SearchBar';
 
 export default function Navigation() {
   const dispatch = useDispatch();
@@ -33,59 +29,42 @@ export default function Navigation() {
       expand='lg'
       bg='dark'
       variant='dark'
-      className='py-3 mb-4 shadow-lg'
+      className='py-2 mb-4 shadow-lg '
     >
-      <Container fluid='sm'>
-        <Navbar.Brand as={NavLink} to='/'>
+      <Container className='flex-column align-items-start flex-md-row align-items-md-center'>
+        <Navbar.Brand as={NavLink} to='/' className='order-1 '>
           serial searcher
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-        <Navbar.Collapse>
-          <Nav className='mr-auto'>
-            <NavDropdown className='me-2' title='Меню' variant='dark'>
-              <NavDropdown.Item
-                as={NavLink}
-                to={`${ROUTES.PROFILE}/${ROUTES.WATCHLIST}`}
-              >
-                Список просмотра
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                as={NavLink}
-                to={`${ROUTES.PROFILE}/${ROUTES.FAVOURITES}`}
-              >
-                Избранное
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <DebounceInput
-            minLength={3}
-            debounceTimeout={500}
-            onChange={(e) => {
-              dispatch(setQuery(e.target.value));
-              if (e.target.value.length === 0) {
-                dispatch(clearQuery());
-                console.log('2 smol');
-              }
-            }}
-            className='form-control me-2'
-            type='search'
-            placeholder='Поиск'
-          />
-          {/* <FormControl
-            className='me-2'
-            type='search'
-            placeholder='Поиск'
-            aria-label='Search'
-          /> */}
-          {isLoggedIn ? <LoggedInView logOut={logOut} /> : <LoggedOutView />}
-        </Navbar.Collapse>
+        <Nav className='order-2'>
+          <NavDropdown className='me-2' title='Меню' variant='dark'>
+            <NavDropdown.Item
+              as={NavLink}
+              to={`${ROUTES.PROFILE}/${ROUTES.WATCHLIST}`}
+            >
+              Список просмотра
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to={`${ROUTES.PROFILE}/${ROUTES.FAVOURITES}`}
+            >
+              Избранное
+            </NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+        <div
+          className='w-100 position-relative order-4 order-md-3'
+          style={{ minHeight: '3em' }}
+        >
+          <SearchBar />
+        </div>
+        {isLoggedIn ? <LoggedInView logOut={logOut} /> : <LoggedOutView />}
       </Container>
     </Navbar>
   );
 }
 
 const LoggedInView = ({ logOut }) => (
-  <Nav>
+  <Nav className='order-3 order-md-4'>
     <NavDropdown className='me-2' title='Профиль'>
       <NavDropdown.Item as={NavLink} to={ROUTES.PROFILE}>
         Профиль
@@ -98,7 +77,7 @@ const LoggedInView = ({ logOut }) => (
 );
 
 const LoggedOutView = () => (
-  <Nav>
+  <Nav className='order-3 order-md-4'>
     <Nav.Link as={NavLink} to={ROUTES.SIGN_IN}>
       Вход
     </Nav.Link>
