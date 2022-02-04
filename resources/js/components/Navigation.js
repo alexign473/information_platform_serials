@@ -29,14 +29,20 @@ export default function Navigation() {
       expand='lg'
       bg='dark'
       variant='dark'
-      className='py-2 mb-4 shadow-lg '
+      className='p-0 mb-4 shadow-lg '
     >
       <Container className='flex-column align-items-start flex-md-row align-items-md-center'>
         <Navbar.Brand as={NavLink} to='/' className='order-1 '>
           serial searcher
         </Navbar.Brand>
         <Nav className='order-2'>
-          <NavDropdown className='me-2' title='Меню' variant='dark'>
+          <Nav.Link as={Link} to={`${ROUTES.SERIALS}`}>
+            ТОП сериалов
+          </Nav.Link>
+          {/* <NavDropdown className='me-2' title='Меню' variant='dark'>
+            <NavDropdown.Item as={Link} to={`${ROUTES.SERIALS}`}>
+              ТОП сериалов
+            </NavDropdown.Item>
             <NavDropdown.Item
               as={NavLink}
               to={`${ROUTES.PROFILE}/${ROUTES.WATCHLIST}`}
@@ -49,7 +55,7 @@ export default function Navigation() {
             >
               Избранное
             </NavDropdown.Item>
-          </NavDropdown>
+          </NavDropdown> */}
         </Nav>
         <div
           className='w-100 position-relative order-4 order-md-3'
@@ -57,7 +63,13 @@ export default function Navigation() {
         >
           <SearchBar />
         </div>
-        {isLoggedIn ? <LoggedInView logOut={logOut} /> : <LoggedOutView />}
+        <Nav className='order-3 order-md-4'>
+          <Nav.Link as={NavLink} to={`${ROUTES.PROFILE}/${ROUTES.WATCHLIST}`}>
+            Список просмотра
+          </Nav.Link>
+        </Nav>
+
+        {/* {isLoggedIn ? <LoggedInView logOut={logOut} /> : <LoggedOutView />} */}
       </Container>
     </Navbar>
   );

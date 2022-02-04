@@ -10,13 +10,14 @@ import {
   Dropdown,
   ButtonGroup,
 } from 'react-bootstrap';
-import { StatusFilters } from '../../store/filters.slice';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import Loader from '../../utilities/Loader';
 import { labels } from '../../constants/labels';
+import { StatusFilters } from '../../store/filters.slice';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { selectWatchlistById } from '../../store/watchlist.slice';
+import Recomendations from '../../components/Recomendations';
 
 export const SingleSerial = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ export const SingleSerial = () => {
     overview,
     poster_path: poster,
     vote_average: rate,
+    number_of_episodes: episodes,
+    next_episode_to_air: next,
+    status,
   } = serial;
 
   const {
@@ -143,18 +147,6 @@ export const SingleSerial = () => {
           <Row>
             <Col lg={10} className='mt-3'>
               <p className='text-left mb-5 lh-sm'>{overview}</p>
-              <table>
-                <tbody>
-                  <tr>
-                    <th scope='row'>Релиз</th>
-                    <td>{release}</td>
-                  </tr>
-                  <tr>
-                    <th scope='row'>Рейтинг IMDb</th>
-                    <td>{rate}/10</td>
-                  </tr>
-                </tbody>
-              </table>
               <div className='h5 mb-4'>
                 Жанры:&nbsp;
                 {genres &&
@@ -166,10 +158,35 @@ export const SingleSerial = () => {
                     </span>
                   ))}
               </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <th scope='row'>Релиз</th>
+                    <td>{release}</td>
+                  </tr>
+                  <tr>
+                    <th scope='row'>Средняя оценка</th>
+                    <td>{rate}/10</td>
+                  </tr>
+                  <tr>
+                    <th scope='row'>Статус</th>
+                    <td>{status}</td>
+                  </tr>
+                  <tr>
+                    <th scope='row'>Эпизодов</th>
+                    <td>{episodes}</td>
+                  </tr>
+                  <tr>
+                    <th scope='row'>Следующая серия</th>
+                    <td>{next ? next.air_date : '-'}</td>
+                  </tr>
+                </tbody>
+              </table>
             </Col>
           </Row>
         </Col>
       </Row>
+      <Recomendations />
     </>
   );
 };

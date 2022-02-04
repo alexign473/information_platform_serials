@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 import serialsReducer from './serials.slice';
+import popularReducer from './popular.slice';
 import serialReducer from './serial.slice';
 import authReducer from './auth.slice';
 import watchlistReducer from './watchlist.slice';
@@ -19,6 +20,7 @@ import filtersReducer from './filters.slice';
 
 const rootReducer = combineReducers({
   serials: serialsReducer,
+  popular: popularReducer,
   serial: serialReducer,
   auth: authReducer,
   watchlist: watchlistReducer,

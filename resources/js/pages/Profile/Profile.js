@@ -6,7 +6,7 @@ export const Profile = () => {
     <div>
       <h2 className='my-3'>Профиль</h2>
       <Link to={ROUTES.WATCHLIST}>Список просмотра</Link>{' '}
-      <Link to={ROUTES.FAVOURITES}>Избранное</Link>{' '}
+      {/* <Link to={ROUTES.FAVOURITES}>Избранное</Link>{' '} */}
       <Link to={ROUTES.SETTINGS}>Настройки</Link>
       <Outlet />
     </div>
