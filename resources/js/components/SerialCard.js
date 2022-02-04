@@ -20,7 +20,7 @@ export default function SerialCard({ poster, title, id }) {
   return (
     <div className='serial-card'>
       {/* <motion.div initial='rest' whileHover='hover' animate='rest'> */}
-      <Link to={`${ROUTES.SERIALS}/${id}`} target='_blank'>
+      <Link to={`${ROUTES.SERIALS}/${id}`}>
         <img
           src={
             poster
