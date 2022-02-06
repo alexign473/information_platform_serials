@@ -50,7 +50,6 @@ export const getSerials = (page) => async (dispatch) => {
   try {
     const { data } = await serialsAxios.get(
       // `discover/tv?api_key=${API_KEY}&language=ru-RU&sort_by=popularity.desc&page=${page}`
-      // `tv/popular?api_key=${API_KEY}&language=ru-RU&page=${page}`
       `tv/top_rated?api_key=${API_KEY}&language=ru-RU&page=${page}`
     );
     dispatch(setSerials(data.results));

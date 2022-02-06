@@ -42,7 +42,7 @@ const Rating = styled.span`
 
 export default function SearchCard({ id, name, poster, rating }) {
   return (
-    <CardContainer to={`${ROUTES.SERIALS}/${id}`} target='_blank'>
+    <CardContainer to={`${ROUTES.SERIALS}/${id}`}>
       <Thumbnail>
         <img
           src={

@@ -176,10 +176,12 @@ export const SingleSerial = () => {
                     <th scope='row'>Эпизодов</th>
                     <td>{episodes}</td>
                   </tr>
-                  <tr>
-                    <th scope='row'>Следующая серия</th>
-                    <td>{next ? next.air_date : '-'}</td>
-                  </tr>
+                  {next && (
+                    <tr>
+                      <th scope='row'>Следующая серия</th>
+                      <td>{next.air_date}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </Col>
