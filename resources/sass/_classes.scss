@@ -34,36 +34,3 @@ h3, .h3, h2, .h2, h1, .h1 {
     flex-wrap: wrap;
 }
 
-.recomendations {
-    display: grid;
-    grid-gap: 24px;
-    overflow: hidden;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    
-    h2 {
-        margin-block-start: 50px;
-        margin-block-end: 50px;
-        font-size: 64px;
-    }
-}
-
-.serial-card {
-    margin: 0px 20px 20px 20px;
-
-    img {
-        box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.397);
-        border-radius: 2px;
-    }
-    h3 {
-        white-space: nowrap;
-        font-size: 16px;
-    }
-}
-
-@media only screen and (max-width: 480px) {
-    .serial-card {    
-        img {
-            width: 100%;
-        }
-    }
-  }

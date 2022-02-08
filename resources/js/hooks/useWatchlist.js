@@ -1,25 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectFilteredWatchlist,
-  selectWatchlistById,
   addToWatchlist,
   removeFromWatchlist,
   setRating,
   setStatus,
+  selectWatchlistById,
 } from '../store/watchlist.slice';
 import { StatusFilters } from '../store/filters.slice';
 import { showAlert } from '../utilities/showAlert';
 
-export const useWatchlist = (serialId) => {
+export const useWatchlist = () => {
   const dispatch = useDispatch();
   const watchlist = useSelector(selectFilteredWatchlist);
-  const watchlistItem = useSelector((state) =>
-    selectWatchlistById(state, serialId)
-  );
 
   return {
     watchlist,
-    watchlistItem,
     setRating: (payload) => dispatch(setRating(payload)),
     setStatus: (payload) => {
       if (payload.status === StatusFilters.Completed)
@@ -32,6 +28,17 @@ export const useWatchlist = (serialId) => {
       showAlert('Добавлено', 'success');
       return dispatch(addToWatchlist(payload));
     },
-    removeFromWatchlist: (payload) => dispatch(removeFromWatchlist(payload)),
+    removeFromWatchlist: (payload) => {
+      showAlert('Удалено', 'warning');
+      return dispatch(removeFromWatchlist(payload));
+    },
+  };
+};
+
+export const useWatchlistItem = (id) => {
+  const watchlistItem = useSelector((state) => selectWatchlistById(state, id));
+
+  return {
+    watchlistItem,
   };
 };

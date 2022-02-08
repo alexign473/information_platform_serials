@@ -10,14 +10,11 @@ import {
   Dropdown,
   ButtonGroup,
 } from 'react-bootstrap';
-import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
 import Loader from '../../utilities/Loader';
-import { labels } from '../../constants/labels';
 import { StatusFilters } from '../../store/filters.slice';
-import { useWatchlist } from '../../hooks/useWatchlist';
-import { selectWatchlistById } from '../../store/watchlist.slice';
+import { useWatchlist, useWatchlistItem } from '../../hooks/useWatchlist';
 import Recomendations from '../../components/Recomendations';
+import Rater from '../../components/Rater';
 
 export const SingleSerial = () => {
   const dispatch = useDispatch();
@@ -36,29 +33,13 @@ export const SingleSerial = () => {
     status,
   } = serial;
 
-  const {
-    // watchlistItem,
-    addToWatchlist,
-    removeFromWatchlist,
-    setRating,
-    setStatus,
-  } = useWatchlist();
-  const watchlistItem = useSelector((state) =>
-    selectWatchlistById(state, serialId)
-  );
+  const { addToWatchlist, removeFromWatchlist, setRating, setStatus } =
+    useWatchlist();
+  const { watchlistItem } = useWatchlistItem(serialId);
 
   useEffect(() => {
     dispatch(getSerial(serialId));
   }, [dispatch, serialId]);
-
-  const [hover, setHover] = useState(-1);
-
-  const onRatingChange = (e, newValue) => {
-    setRating({ id: serial.id, rating: newValue });
-  };
-  const onChangeActive = (e, newHover) => {
-    setHover(newHover);
-  };
 
   const onAddToWatchlist = (status) => {
     if (!watchlistItem) {
@@ -67,29 +48,6 @@ export const SingleSerial = () => {
     } else {
       setStatus({ id: serial.id, status: status });
     }
-  };
-
-  const renderRating = () => {
-    const { rating: userRating } = watchlistItem
-      ? watchlistItem
-      : { rating: 0 };
-
-    return (
-      watchlistItem && (
-        <>
-          <div className='text-center'>
-            <h6 className='mt-3 mb-2'>Оценка: </h6>
-            <Rating
-              value={userRating}
-              max={10}
-              onChange={onRatingChange}
-              onChangeActive={onChangeActive}
-            />
-            <Box>{labels[hover !== -1 ? hover : userRating]}</Box>
-          </div>
-        </>
-      )
-    );
   };
 
   if (loading) return <Loader />;
@@ -110,7 +68,7 @@ export const SingleSerial = () => {
             alt={name}
           />
 
-          <Dropdown as={ButtonGroup} className='w-100 mt-4'>
+          <Dropdown as={ButtonGroup} className='w-100 mt-4 mb-3'>
             <Button
               className='w-100'
               disabled={!!watchlistItem}
@@ -135,7 +93,13 @@ export const SingleSerial = () => {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          {renderRating()}
+          <div className='text-center' style={{ minHeight: '83px' }}>
+            <Rater
+              id={serialId}
+              watchlistItem={watchlistItem}
+              setRating={setRating}
+            />
+          </div>
         </Col>
 
         <Col>

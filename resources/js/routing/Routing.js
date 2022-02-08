@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import {
   Layout,
   Profile,

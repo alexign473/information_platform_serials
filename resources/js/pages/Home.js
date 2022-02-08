@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SerialCard from '../components/SerialCard';
 import { selectSerials, getSerials } from '../store/popular.slice';
 import Loader from '../utilities/Loader';
+
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  flex-wrap: wrap;
+`;
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -42,7 +49,7 @@ export const Home = () => {
         hasMore={hasMore}
         loader={<Loader key={-1} />}
       >
-        <div className='content'>
+        <ContentContainer>
           {popular?.map((serial) => (
             <SerialCard
               key={serial.id}
@@ -51,7 +58,7 @@ export const Home = () => {
               id={serial.id}
             />
           ))}
-        </div>
+        </ContentContainer>
       </InfiniteScroll>
     </>
   );

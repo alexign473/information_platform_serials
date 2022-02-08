@@ -17,13 +17,6 @@ const SearchBarContainer = styled(motion.div)`
   width: 100%;
 `;
 
-const Container = styled.div`
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-`;
-
 const SearchInputContainer = styled.div`
   min-height: 3em;
   display: flex;

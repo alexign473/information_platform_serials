@@ -61,7 +61,7 @@ export const selectFilteredWatchlist = createSelector(
       const statusMatches = showAll || item.status === status;
       const searchQueryMatches =
         searchQuery.length === 0 ||
-        item.title.toLowerCase().includes(searchQuery.toLowerCase());
+        item.name.toLowerCase().includes(searchQuery.toLowerCase());
       return statusMatches && searchQueryMatches;
     });
   }
